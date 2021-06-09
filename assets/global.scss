@@ -1,17 +1,23 @@
 :root {
   --max-width: 64rem;
   --standard: 1rem;
+  --spacing-micro: 0.5rem;
+  --spacing-nano: 0.25rem;
   --heading-color: hsl(0, 0%, 0%);
   --heading-font: 'Lora', serif;;
   --body-color: hsl(0, 0%, 32%);
   --body-font: 'Quicksand', sans-serif;
   --body-background: hsl(0, 0%, 95%);
+  --card-background: hsl(0, 0%, 93%);
+  --primary-color: hsl(100, 40%, 90%);
+  --secondary-color: hsl(100, 40%, 80%);
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  transition: all 200ms ease-in-out;
 }
 
 html, body {
@@ -31,4 +37,25 @@ p {
   line-height: 1.75;
   font-family: var(--body-font);
   letter-spacing: 1px;
+}
+
+button {
+  margin: 1rem 0;
+  padding: 0.75rem 2.75rem;
+  border: 1px solid var(--secondary-color);
+  border-radius: var(--spacing-nano);
+  color: var(--heading-color);
+  background-color: var(--secondary-color);
+  box-shadow: 0 0 4px rgba(0,0,0,.3);
+
+  &:hover,
+  &:focus {
+    transform: scale(1.05);
+    background-color: var(--secondary-color);
+  }
+
+  &:active {
+    background-color: var(--primary-color);
+    transform: scale(0.99);
+  }
 }
