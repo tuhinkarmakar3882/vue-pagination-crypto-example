@@ -1,0 +1,34 @@
+:root {
+  --max-width: 64rem;
+  --standard: 1rem;
+  --heading-color: hsl(0, 0%, 0%);
+  --heading-font: 'Lora', serif;;
+  --body-color: hsl(0, 0%, 32%);
+  --body-font: 'Quicksand', sans-serif;
+  --body-background: hsl(0, 0%, 95%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  background: var(--body-background);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 1rem 0;
+  line-height: 1.5;
+  font-weight: 600;
+  color: var(--heading-color);
+  font-family: var(--heading-font);
+}
+
+p {
+  color: var(--body-color);
+  line-height: 1.75;
+  font-family: var(--body-font);
+  letter-spacing: 1px;
+}
