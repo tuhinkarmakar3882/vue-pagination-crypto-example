@@ -117,6 +117,7 @@ export default {
   main {
     padding: 0 var(--spacing-standard);
   }
+
   header {
     display: flex;
     justify-content: center;
