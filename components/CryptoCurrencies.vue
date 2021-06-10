@@ -36,11 +36,13 @@
 <script>
 export default {
   name: 'CryptoCurrencies',
+
   data() {
     return {
       perPageItemCount: [10, 25, 50, 100],
       itemsPerPage: 10,
       currentPage: 1,
+      refreshInterval: undefined,
     }
   },
 
@@ -73,9 +75,17 @@ export default {
       this.fetchCryptoData()
     },
   },
-  async mounted() {
-    await this.fetchCryptoData()
+
+  mounted() {
+    const refreshTime = 15 * 60 * 1000 // minutes * seconds * milliseconds
+
+    this.refreshInterval = setInterval(this.fetchCryptoData, refreshTime)
   },
+
+  beforeDestroy() {
+    clearInterval(this.refreshInterval)
+  },
+
   methods: {
     async fetchCryptoData() {
       await this.$store.dispatch('Currencies/fetchCurrencies', {
@@ -83,12 +93,14 @@ export default {
         offset: this.offsetValue,
       })
     },
+
     goToPreviousPage() {
       const pageNumber = this.currentPage - 1 > 0 ? this.currentPage - 1 : 1
       if (pageNumber === this.currentPage) return
       this.currentPage = pageNumber
       this.fetchCryptoData()
     },
+
     goToNextPage() {
       this.currentPage++
       this.fetchCryptoData()
