@@ -2,7 +2,6 @@
   <div class="crypto-currencies-component">
     <header>
       <button :disabled="isFirstPage" @click="goToPreviousPage">&lt;</button>
-      <pre>{{ offsetValue }} to {{ offsetValue + itemsPerPage }}</pre>
       <select v-model="itemsPerPage" name="items-per-page">
         <option
           v-for="option in perPageItemCount"
