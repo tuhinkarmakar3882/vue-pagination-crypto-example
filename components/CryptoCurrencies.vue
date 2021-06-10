@@ -24,6 +24,7 @@
           <img :alt="cryptoCurrency.name" :src="cryptoCurrency.iconUrl" />
           <aside>
             <p><strong>Name:</strong> {{ cryptoCurrency.name }}</p>
+            <p><strong>Symbol:</strong> {{ cryptoCurrency.symbol }}</p>
             <p><strong>Price:</strong> ${{ cryptoCurrency.price }}</p>
             <p><strong>Change:</strong> {{ cryptoCurrency.change }}%</p>
           </aside>
@@ -77,9 +78,10 @@ export default {
   },
 
   mounted() {
-    const refreshTime = 15 * 60 * 1000 // minutes * seconds * milliseconds
-
+    const refreshTime = 10 * 60 * 1000 // minutes * seconds * milliseconds
     this.refreshInterval = setInterval(this.fetchCryptoData, refreshTime)
+
+    this.fetchCryptoData()
   },
 
   beforeDestroy() {
