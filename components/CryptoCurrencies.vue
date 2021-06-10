@@ -1,7 +1,7 @@
 <template>
   <div class="crypto-currencies-component">
     <header>
-      <button @click="goToPreviousPage">Previous</button>
+      <button :disabled="isFirstPage" @click="goToPreviousPage">&lt;</button>
       <pre>{{ offsetValue }} to {{ offsetValue + itemsPerPage }}</pre>
       <select v-model="itemsPerPage" name="items-per-page">
         <option
@@ -12,7 +12,7 @@
           {{ option }}
         </option>
       </select>
-      <button @click="goToNextPage">Next</button>
+      <button @click="goToNextPage">&gt;</button>
     </header>
 
     <main>
@@ -48,6 +48,10 @@ export default {
   computed: {
     offsetValue() {
       return this.itemsPerPage * this.currentPage - this.itemsPerPage
+    },
+
+    isFirstPage() {
+      return this.currentPage === 1
     },
 
     cryptoCurrencies: {
@@ -102,6 +106,10 @@ export default {
     align-items: center;
     margin-bottom: 2rem;
     gap: var(--spacing-standard);
+    position: sticky;
+    z-index: 1;
+    background: var(--body-segment);
+    top: 0;
   }
 
   main {

@@ -1,5 +1,7 @@
 :root {
   --max-width: 78rem;
+  --spacing-large: 3.5rem;
+  --spacing-medium: 2rem;
   --spacing-standard: 1rem;
   --spacing-micro: 0.5rem;
   --spacing-nano: 0.25rem;
@@ -8,6 +10,7 @@
   --body-color: hsl(0, 0%, 32%);
   --body-font: 'Quicksand', sans-serif;
   --body-background: hsl(0, 0%, 95%);
+  --body-segment: hsl(200, 50%, 90%);
   --card-background: hsl(0, 0%, 93%);
   --primary-color: hsl(100, 40%, 90%);
   --secondary-color: hsl(100, 40%, 80%);
@@ -32,6 +35,10 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--heading-font);
 }
 
+h1 {
+  font-size: 40px;
+}
+
 p {
   color: var(--body-color);
   line-height: 1.75;
@@ -41,12 +48,18 @@ p {
 
 button {
   margin: 1rem 0;
-  padding: 0.75rem 2.75rem;
+  padding: 0.75rem 1.75rem;
   border: 1px solid var(--secondary-color);
   border-radius: var(--spacing-nano);
   color: var(--heading-color);
   background-color: var(--secondary-color);
-  box-shadow: 0 0 4px rgba(0,0,0,.3);
+  box-shadow: 0 0 4px rgba(0, 0, 0, .3);
+
+  &:disabled {
+    color: hsl(0, 0%, 60%);
+    background-color: hsl(0, 0%, 80%);
+    border: none;
+  }
 
   &:hover,
   &:focus {
