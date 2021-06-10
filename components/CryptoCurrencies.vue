@@ -1,13 +1,18 @@
 <template>
   <div class="crypto-currencies-component">
     <header>
-      <button>Previous</button>
+      <button @click="goToPreviousPage">Previous</button>
+      <pre>{{ offsetValue }} to {{ offsetValue + itemsPerPage }}</pre>
       <select v-model="itemsPerPage" name="items-per-page">
-        <option value="25">25</option>
-        <option value="50">50</option>
-        <option value="100">100</option>
+        <option
+          v-for="option in perPageItemCount"
+          :key="option"
+          :value="option"
+        >
+          {{ option }}
+        </option>
       </select>
-      <button>Next</button>
+      <button @click="goToNextPage">Next</button>
     </header>
 
     <main>
@@ -16,39 +21,74 @@
         :key="cryptoCurrency.id"
         tabindex="0"
       >
-        <img :alt="cryptoCurrency.name" :src="cryptoCurrency.iconUrl" />
-        <aside>
-          <p><strong>Name:</strong> {{ cryptoCurrency.name }}</p>
-          <p><strong>Price:</strong> ${{ cryptoCurrency.price }}</p>
-          <p><strong>Change:</strong> {{ cryptoCurrency.change }}%</p>
-        </aside>
+        <a :href="cryptoCurrency.websiteUrl" target="_blank">
+          <img :alt="cryptoCurrency.name" :src="cryptoCurrency.iconUrl" />
+          <aside>
+            <p><strong>Name:</strong> {{ cryptoCurrency.name }}</p>
+            <p><strong>Price:</strong> ${{ cryptoCurrency.price }}</p>
+            <p><strong>Change:</strong> {{ cryptoCurrency.change }}%</p>
+          </aside>
+        </a>
       </section>
     </main>
   </div>
 </template>
 
 <script>
-import jsonData from '@/data/response.json'
-
 export default {
   name: 'CryptoCurrencies',
   data() {
     return {
-      cryptoCurrencies: undefined,
+      perPageItemCount: [25, 50, 100],
       itemsPerPage: 25,
+      currentPage: 1,
     }
   },
-  watch: {
-    itemsPerPage(newValue) {
-      // this.$store.dispatch('Currencies/')
+
+  computed: {
+    offsetValue() {
+      return this.itemsPerPage * this.currentPage - this.itemsPerPage
+    },
+
+    cryptoCurrencies: {
+      get() {
+        return this.$store.getters['Currencies/getCurrencies']
+      },
+      set(payload) {
+        return this.$store.dispatch('Currencies/fetchCurrencies', payload)
+      },
     },
   },
-  mounted() {
-    this.cryptoCurrencies = this.fetchCryptoData()
+
+  watch: {
+    itemsPerPage(newValue, oldValue) {
+      const existingOffset = oldValue * this.currentPage - oldValue
+      this.currentPage = existingOffset / newValue + 1
+      this.fetchCryptoData()
+    },
+    currentPage() {
+      this.fetchCryptoData()
+    },
+  },
+  async mounted() {
+    await this.fetchCryptoData()
   },
   methods: {
-    fetchCryptoData() {
-      return jsonData.data.coins
+    async fetchCryptoData() {
+      await this.$store.dispatch('Currencies/fetchCurrencies', {
+        limit: this.itemsPerPage,
+        offset: this.offsetValue,
+      })
+    },
+    goToPreviousPage() {
+      const pageNumber = this.currentPage - 1 > 0 ? this.currentPage - 1 : 1
+      if (pageNumber === this.currentPage) return
+      this.currentPage = pageNumber
+      this.fetchCryptoData()
+    },
+    goToNextPage() {
+      this.currentPage++
+      this.fetchCryptoData()
     },
   },
 }
@@ -58,25 +98,25 @@ export default {
 .crypto-currencies-component {
   header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     margin-bottom: 2rem;
+    gap: var(--spacing-standard);
   }
 
   main {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--standard);
+    gap: var(--spacing-standard);
 
     section {
       display: flex;
-      background: var(--card-background);
-      gap: 16px;
       flex: 1 1 0;
-      min-width: 250px;
-      padding: var(--standard);
-      border-radius: 8px;
-      box-shadow: 0 0 4px hsla(0, 0%, 0%, 0.3);
+      min-width: 300px;
+      padding: var(--spacing-standard);
+      background: var(--card-background);
+      border-radius: var(--spacing-micro);
+      box-shadow: 0 0 var(--spacing-nano) hsla(0, 0%, 0%, 0.3);
       cursor: pointer;
 
       &:hover,
@@ -90,10 +130,16 @@ export default {
         transform: scale(0.95);
       }
 
-      img {
-        height: 64px;
-        width: 64px;
-        object-fit: cover;
+      a {
+        text-decoration: none;
+        display: flex;
+        gap: var(--spacing-standard);
+
+        img {
+          height: 64px;
+          width: 64px;
+          object-fit: cover;
+        }
       }
     }
   }
