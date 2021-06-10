@@ -31,7 +31,7 @@ export default {
   }
 
   main {
-    padding: var(--spacing-standard);
+    padding: var(--spacing-standard) 0;
     max-width: var(--max-width);
     margin: auto;
   }

@@ -113,6 +113,10 @@ export default {
 
 <style lang="scss" scoped>
 .crypto-currencies-component {
+  header,
+  main {
+    padding: 0 var(--spacing-standard);
+  }
   header {
     display: flex;
     justify-content: center;
