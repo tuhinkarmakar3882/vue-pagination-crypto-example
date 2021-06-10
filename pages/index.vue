@@ -5,16 +5,23 @@
   </div>
 </template>
 
-<script></script>
+<script>
+import CryptoCurrencies from '~/components/CryptoCurrencies'
+
+export default {
+  components: { CryptoCurrencies },
+}
+</script>
 
 <style lang="scss" scoped>
 .index-page {
   max-width: var(--max-width);
   margin: auto;
-  padding: var(--standard);
+  padding: var(--spacing-standard);
 
   h1 {
     margin-bottom: 3rem;
+    text-align: center;
   }
 }
 </style>
