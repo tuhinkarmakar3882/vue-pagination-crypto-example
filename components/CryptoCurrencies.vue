@@ -39,8 +39,8 @@ export default {
   name: 'CryptoCurrencies',
   data() {
     return {
-      perPageItemCount: [25, 50, 100],
-      itemsPerPage: 25,
+      perPageItemCount: [10, 25, 50, 100],
+      itemsPerPage: 10,
       currentPage: 1,
     }
   },
